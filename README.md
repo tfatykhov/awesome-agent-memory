@@ -2,7 +2,7 @@
 
 [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 
-A curated collection of research papers on **memory systems for LLM-based agents** — covering architecture, retrieval, forgetting, consolidation, evaluation, and the cognitive science that inspires it all.
+A curated collection of research papers on **memory systems for LLM-based agents** — covering architecture, retrieval, forgetting, consolidation, evaluation, the cognitive science that inspires it all, and the neuromorphic hardware that may one day implement it.
 
 > **Why this list?** Every agent framework bolts on a vector store and calls it "memory." These papers show what memory *actually* requires: admission control, consolidation loops, forgetting mechanisms, typed multi-store architectures, and retrieval strategies that go far beyond cosine similarity.
 
@@ -23,6 +23,7 @@ A curated collection of research papers on **memory systems for LLM-based agents
 - [Skill \& Procedural Memory](#skill--procedural-memory)
 - [Multi-Agent Memory](#multi-agent-memory)
 - [Memory Economics](#memory-economics)
+- [Neuromorphic \& Bio-Inspired Memory](#neuromorphic--bio-inspired-memory)
 - [Adjacent Research](#adjacent-research)
 - [Key Themes \& Cross-Cutting Insights](#key-themes--cross-cutting-insights)
 - [Contributing](#contributing)
@@ -109,6 +110,26 @@ A curated collection of research papers on **memory systems for LLM-based agents
 | Paper | Authors | Date | Key Contribution |
 |-------|---------|------|------------------|
 | [Beyond the Context Window: Cost-Performance Analysis](https://arxiv.org/abs/2603.04814) | Pollertlam, Kornsuwannawit | Mar 2026 | Compares Mem0-style fact-based memory vs long-context LLMs on LongMemEval, LoCoMo, PersonaMemv2. **Break-even: memory system becomes cheaper after ~10 interaction turns at 100K context.** Long-context wins on factual recall but memory is competitive on reasoning. |
+
+## Neuromorphic & Bio-Inspired Memory
+
+> *Most agent memory research ignores 50 years of neuroscience. This section bridges that gap — connecting the biological mechanisms that LLM memory papers abstract from (SleepGate's forgetting, CraniMem's gating, A-MEM's dual-phase encoding) to the spiking neural network implementations that model them directly.*
+
+| Paper / Project | Authors | Date | Key Contribution |
+|-------|---------|------|------------------|
+| [A Bio-realistic Synthetic Hippocampus for Robotic Cognition](https://link.springer.com/article/10.1007/s12668-025-02229-2) | Talanov et al. | Oct 2025 | Synthetic hippocampal architecture with **dual-phase operation**: online sensorimotor encoding during wake, offline consolidation via SWR-triggered replay during sleep. SNN on neuromorphic substrates (≤1W). Goal-prioritised plasticity prevents catastrophic forgetting. Directly models the biology that SleepGate and CraniMem abstract. BioNanoScience. Open access. |
+| [The Memristive Implementation of the Hippocampus: A Hypothesis](https://link.springer.com/article/10.1007/s12668-025-02124-w) | Talanov et al. | Aug 2025 | Hardware-level hippocampal memory using stochastic polycrystalline nano-fiber mesh as memristive substrate. Key insight: the **inherent randomness** of material structure mimics probabilistic biological synaptic networks. Demonstrates resistive switching tunability for implementing dynamic memory functions — bidirectional replay, synaptic up/down-scaling, consolidation. BioNanoScience. Open access. |
+| [Simulation of Serotonin Mechanisms in NEUCOGAR Cognitive Architecture](https://www.sciencedirect.com/science/article/abs/pii/S2212683X15000663) | Talanov, Gafarov, Vallverdú et al. | 2018 | Maps neuromodulatory mechanisms to computational models: **dopamine → attention**, **serotonin → inhibition**. The "cube of emotions" model. Demonstrates that mammalian emotional-state control via monoamine neurotransmitters can be re-implemented computationally. Foundation for neuromodulator-gated memory admission. Procedia Computer Science. |
+| [tinyHippo](https://github.com/max-talanov/tinyHippo) | Talanov | Active | CA1 + CA3 hippocampal microcircuit simulation in NEST with Izhikevich neurons. Implements **bidirectional replay**, theta-modulated encoding/retrieval phase separation, and SWR-triggered consolidation. The biological reference implementation — validates the mechanisms that Membrain engineers and SleepGate abstracts. MIT license. |
+| [Membrain](https://github.com/tfatykhov/membrain) | Fatykhov | Active | Neuromorphic memory bridge using **FlyHash encoding** and BiCameralMemory SNN (Nengo/Voja learning). Hopfield-style attractor dynamics for pattern completion (100% at 20% noise). Stochastic consolidation with SleepSignal. gRPC API for agent integration. The engineering abstraction layer between biological models (tinyHippo) and cognitive agents (Nous). |
+
+**The Stack:** These projects form a natural hierarchy — **tinyHippo** (biological model, validates mechanisms) → **Membrain** (engineering abstraction, SNN service) → **Nous** (cognitive agent, consumes memory). The papers provide the theoretical foundation; the repos provide working implementations.
+
+**Why this matters for agent memory:** The LLM papers in this list independently converge on mechanisms that neuroscience has studied for decades:
+- SleepGate's learned forgetting ← hippocampal SWR consolidation during sleep (Talanov 2025a)
+- CraniMem's utility gating ← neuromodulator-gated admission (Talanov/NEUCOGAR 2018)
+- A-MEM's dual-phase encoding ← online/offline hippocampal states (Talanov 2025a, tinyHippo)
+- xMemory's hierarchical consolidation ← cortical-hippocampal memory transfer (Talanov 2025b)
 
 ## Adjacent Research
 
