@@ -6,7 +6,18 @@ A curated collection of research papers on **memory systems for LLM-based agents
 
 > **Why this list?** Every agent framework bolts on a vector store and calls it "memory." These papers show what memory *actually* requires: admission control, consolidation loops, forgetting mechanisms, typed multi-store architectures, and retrieval strategies that go far beyond cosine similarity.
 
-**Maintained by** [@tfatykhov](https://github.com/tfatykhov) · Built alongside [Nous](https://cognition-engines.ai/nous.html), a cognitive AI agent using the FORGE architecture.
+**Maintained by** [@tfatykhov](https://github.com/tfatykhov) · Built alongside [Nous](https://github.com/tfatykhov/nous), a cognitive AI agent with typed multi-store memory.
+
+
+### 🚀 Start Here
+
+| If you want to... | Start with |
+|---|---|
+| **Understand the landscape** | [Memory Survey](https://arxiv.org/abs/2512.13564) (taxonomy) → [Anatomy](https://arxiv.org/abs/2602.19320) (critical analysis) |
+| **Build agent memory** | [xMemory](https://arxiv.org/abs/2602.02007) (why RAG isn't enough) → [A-MAC](https://arxiv.org/abs/2603.04549) (admission control) → [Mem0](https://arxiv.org/abs/2504.19413) (production system) |
+| **Add forgetting/consolidation** | [SleepGate](https://arxiv.org/abs/2603.14517) → [CraniMem](https://arxiv.org/abs/2603.15642) |
+| **Evaluate your memory system** | [StructMemEval](https://arxiv.org/abs/2602.11243) → [Anatomy](https://arxiv.org/abs/2602.19320) (why benchmarks are broken) |
+| **Explore the neuroscience** | [Neuromorphic section](#neuromorphic--bio-inspired-memory) |
 
 ---
 
@@ -29,7 +40,13 @@ A curated collection of research papers on **memory systems for LLM-based agents
 - [Contributing](#contributing)
 
 ### Verification Legend
-✅ Venue confirmed via official proceedings or arXiv metadata | 📄 Self-reported claim from authors' own evaluation | ⚠️ Unverified — plausible but not independently confirmed
+
+| Symbol | Meaning |
+|--------|---------|
+| ✅ | **Venue confirmed** — verified via official proceedings, OpenReview, or arXiv metadata |
+| 📄 | **Self-reported** — metrics from authors' own evaluation; exercise caution |
+| ⚠️ | **Unverified** — plausible claim but not independently confirmed |
+| 🔬 | **Editor's synthesis** — cross-paper connection identified by the maintainer, not claimed by original authors |
 
 ---
 
@@ -37,7 +54,7 @@ A curated collection of research papers on **memory systems for LLM-based agents
 
 | Paper | Authors | Date | Key Contribution |
 |-------|---------|------|------------------|
-| [Memory in the Age of AI Agents: A Survey](https://arxiv.org/abs/2512.13564) | 47 authors | Dec 2025 | Unified taxonomy across 3 lenses: **Forms** (token/parametric/latent), **Functions** (factual/experiential/working), **Dynamics** (formation/evolution/retrieval). Distinguishes agent memory from RAG and context engineering. Hugging Face Daily Paper #1 ⚠️ (unverified). |
+| [Memory in the Age of AI Agents: A Survey](https://arxiv.org/abs/2512.13564) | 47 authors | Dec 2025 | Unified taxonomy across 3 lenses: **Forms** (token/parametric/latent), **Functions** (factual/experiential/working), **Dynamics** (formation/evolution/retrieval). Distinguishes agent memory from RAG and context engineering. Hugging Face Daily Paper #1 ⚠️ (unverifiable — HF archive page returns 404). |
 | [Anatomy of Agentic Memory](https://arxiv.org/abs/2602.19320) | Jiang, Li, Wei et al. | Feb 2026 | Structured taxonomy of Memory-Augmented Generation (MAG) systems. Critically analyzes empirical fragility: benchmark saturation, metric misalignment, backbone-dependent variance, overlooked latency costs. Evaluates 5 systems (LOCOMO, A-Mem, MemoryOS, Nemori, MAGMA). |
 | [The Landscape of Agentic RL for LLMs](https://arxiv.org/abs/2509.02547) | Guibin Zhang et al. (Oxford, Shanghai AI Lab, NUS, UIUC, UCL) | Sep 2025 | Synthesizes 500+ works. Reframes LLMs as autonomous agents using POMDPs. Covers planning, tool use, memory, reasoning, self-improvement. |
 | [From Static Templates to Dynamic Runtime Graphs](https://arxiv.org/abs/2603.22386) | Yue et al. (IBM Research) | Mar 2026 | Agentic Computation Graphs (ACGs) framework — distinguishes workflow templates, realized graphs, and execution traces. Organizes ~40 papers by when structure is determined. |
@@ -116,23 +133,23 @@ A curated collection of research papers on **memory systems for LLM-based agents
 
 ## Neuromorphic & Bio-Inspired Memory
 
-> *Most agent memory research ignores 50 years of neuroscience. This section bridges that gap — connecting the biological mechanisms that LLM memory papers abstract from (SleepGate's forgetting, CraniMem's gating, A-MEM's dual-phase encoding) to the spiking neural network implementations that model them directly.*
+> *Most agent memory research ignores 50 years of neuroscience. This section bridges that gap — presenting the biological mechanisms that may underlie what LLM memory papers have independently re-discovered (forgetting, gating, dual-phase encoding), alongside the spiking neural network implementations that model them directly. Cross-references to LLM papers below are 🔬 editor's synthesis.*
 
 | Paper / Project | Authors | Date | Key Contribution |
 |-------|---------|------|------------------|
-| [A Bio-realistic Synthetic Hippocampus for Robotic Cognition](https://link.springer.com/article/10.1007/s12668-025-02229-2) | Talanov et al. | Oct 2025 | Synthetic hippocampal architecture with **dual-phase operation**: online sensorimotor encoding during wake, offline consolidation via SWR-triggered replay during sleep. SNN on neuromorphic substrates (≤1W). Goal-prioritised plasticity prevents catastrophic forgetting. Directly models the biology that SleepGate and CraniMem abstract. BioNanoScience. Open access. |
+| [A Bio-realistic Synthetic Hippocampus for Robotic Cognition](https://link.springer.com/article/10.1007/s12668-025-02229-2) | Talanov et al. | Oct 2025 | Synthetic hippocampal architecture with **dual-phase operation**: online sensorimotor encoding during wake, offline consolidation via SWR-triggered replay during sleep. SNN on neuromorphic substrates (≤1W). Goal-prioritised plasticity prevents catastrophic forgetting. Models the biological mechanisms that parallel what SleepGate and CraniMem implement in software 🔬. BioNanoScience. Open access. |
 | [The Memristive Implementation of the Hippocampus: A Hypothesis](https://link.springer.com/article/10.1007/s12668-025-02124-w) | Talanov et al. | Aug 2025 | Hardware-level hippocampal memory using stochastic polycrystalline nano-fiber mesh as memristive substrate. Key insight: the **inherent randomness** of material structure mimics probabilistic biological synaptic networks. Demonstrates resistive switching tunability for implementing dynamic memory functions — bidirectional replay, synaptic up/down-scaling, consolidation. BioNanoScience. Open access. |
 | [Simulation of Serotonin Mechanisms in NEUCOGAR Cognitive Architecture](https://www.sciencedirect.com/science/article/abs/pii/S2212683X15000663) | Talanov, Gafarov, Vallverdú et al. | 2018 | Maps neuromodulatory mechanisms to computational models: **dopamine → attention**, **serotonin → inhibition**. The "cube of emotions" model. Demonstrates that mammalian emotional-state control via monoamine neurotransmitters can be re-implemented computationally. Foundation for neuromodulator-gated memory admission. Procedia Computer Science. |
 | [tinyHippo](https://github.com/max-talanov/tinyHippo) | Talanov | Active | CA1 + CA3 hippocampal microcircuit simulation in NEST with Izhikevich neurons. Implements **bidirectional replay**, theta-modulated encoding/retrieval phase separation, and SWR-triggered consolidation. The biological reference implementation — validates the mechanisms that Membrain engineers and SleepGate abstracts. MIT license. |
-| [Membrain](https://github.com/tfatykhov/membrain) | Fatykhov | Active | Neuromorphic memory bridge using **FlyHash encoding** and BiCameralMemory SNN (Nengo/Voja learning). Hopfield-style attractor dynamics for pattern completion (100% at 20% noise). Stochastic consolidation with SleepSignal. gRPC API for agent integration. The engineering abstraction layer between biological models (tinyHippo) and cognitive agents (Nous). |
+| [Membrain](https://github.com/tfatykhov/membrain) | Fatykhov | Active | Neuromorphic memory bridge using **FlyHash encoding** and BiCameralMemory SNN (Nengo/Voja learning). Hopfield-style attractor dynamics for pattern completion (tested up to 20% noise in PoC). Stochastic consolidation with SleepSignal. gRPC API for agent integration. The engineering abstraction layer between biological models (tinyHippo) and cognitive agents (Nous). |
 
 **The Stack:** These projects form a natural hierarchy — **tinyHippo** (biological model, validates mechanisms) → **Membrain** (engineering abstraction, SNN service) → **Nous** (cognitive agent, consumes memory). The papers provide the theoretical foundation; the repos provide working implementations.
 
-**Why this matters for agent memory:** The LLM papers in this list independently converge on mechanisms that neuroscience has studied for decades:
-- SleepGate's learned forgetting ← hippocampal SWR consolidation during sleep (Talanov 2025a)
-- CraniMem's utility gating ← neuromodulator-gated admission (Talanov/NEUCOGAR 2018)
-- A-MEM's dual-phase encoding ← online/offline hippocampal states (Talanov 2025a, tinyHippo)
-- xMemory's hierarchical consolidation ← cortical-hippocampal memory transfer (Talanov 2025b)
+**Why this matters for agent memory 🔬:** The LLM papers in this list independently converge on mechanisms that neuroscience has studied for decades. The following correspondences are **editor's synthesis** — the LLM papers don't explicitly cite these neuroscience sources, but the structural parallels are striking:
+- SleepGate's learned forgetting ↔ hippocampal SWR consolidation during sleep (Talanov 2025a)
+- CraniMem's utility gating ↔ neuromodulator-gated admission (Talanov/NEUCOGAR 2018)
+- A-MEM's dual-phase encoding ↔ online/offline hippocampal states (Talanov 2025a, tinyHippo)
+- xMemory's hierarchical consolidation ↔ cortical-hippocampal memory transfer (Talanov 2025b)
 
 ## Adjacent Research
 
