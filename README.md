@@ -29,24 +29,32 @@ A curated collection of research papers on **memory systems for LLM-based agents
 
 ---
 
+## Verification Status
+
+Performance numbers in this list are from the papers' own evaluations unless noted otherwise. Venue acceptances are verified against arXiv metadata or official proceedings where possible.
+
+- ✅ **Verified** — confirmed via arXiv comments, OpenReview, or official proceedings
+- 📄 **Self-reported** — numbers from the paper's own benchmarks, not independently replicated
+- ⚠️ **Unverified** — claim is plausible but could not be confirmed from public sources
+
 ## Surveys & Taxonomies
 
 | Paper | Authors | Date | Key Contribution |
 |-------|---------|------|------------------|
-| [Memory in the Age of AI Agents: A Survey](https://arxiv.org/abs/2512.13564) | 47 authors | Dec 2025 | Unified taxonomy across 3 lenses: **Forms** (token/parametric/latent), **Functions** (factual/experiential/working), **Dynamics** (formation/evolution/retrieval). Distinguishes agent memory from RAG and context engineering. Hugging Face Daily Paper #1. |
+| [Memory in the Age of AI Agents: A Survey](https://arxiv.org/abs/2512.13564) | 47 authors | Dec 2025 | Unified taxonomy across 3 lenses: **Forms** (token/parametric/latent), **Functions** (factual/experiential/working), **Dynamics** (formation/evolution/retrieval). Distinguishes agent memory from RAG and context engineering. Reported as Hugging Face Daily Paper #1 (unverified). |
 | [Anatomy of Agentic Memory](https://arxiv.org/abs/2602.19320) | Jiang, Li, Wei et al. | Feb 2026 | Structured taxonomy of Memory-Augmented Generation (MAG) systems. Critically analyzes empirical fragility: benchmark saturation, metric misalignment, backbone-dependent variance, overlooked latency costs. Evaluates 5 systems (LOCOMO, A-Mem, MemoryOS, Nemori, MAGMA). |
-| [The Landscape of Agentic RL for LLMs](https://arxiv.org/abs/2503.16659) | Oxford, Shanghai AI Lab, NUS, UIUC, UCL et al. | Mar 2026 | Synthesizes 500+ works. Reframes LLMs as autonomous agents using POMDPs. Covers planning, tool use, memory, reasoning, self-improvement. |
+| [The Landscape of Agentic RL for LLMs](https://arxiv.org/abs/2509.02547) | Guibin Zhang et al. (Oxford, Shanghai AI Lab, NUS, UIUC, UCL) | Sep 2025 | Synthesizes 500+ works. Reframes LLMs as autonomous agents using POMDPs. Covers planning, tool use, memory, reasoning, self-improvement. |
 | [From Static Templates to Dynamic Runtime Graphs](https://arxiv.org/abs/2603.22386) | Yue et al. (IBM Research) | Mar 2026 | Agentic Computation Graphs (ACGs) framework — distinguishes workflow templates, realized graphs, and execution traces. Organizes ~40 papers by when structure is determined. |
 
 ## Memory Architectures
 
 | Paper | Authors | Date | Key Contribution |
 |-------|---------|------|------------------|
-| [A-MEM: Agentic Memory for LLM Agents](https://arxiv.org/abs/2502.12110) | Xu, Liang, Mei, Gao, Tan, Zhang | Feb 2025 | Dynamic memory organization inspired by Zettelkasten. Creates interconnected "memory notes" with content, metadata, and explicit links. Agent autonomously decides when to create, update, or link memories. NeurIPS 2025. |
+| [A-MEM: Agentic Memory for LLM Agents](https://arxiv.org/abs/2502.12110) | Xu, Liang, Mei, Gao, Tan, Zhang | Feb 2025 | Dynamic memory organization inspired by Zettelkasten. Creates interconnected "memory notes" with content, metadata, and explicit links. Agent autonomously decides when to create, update, or link memories. NeurIPS 2025 ✅. |
 | [SYNAPSE: Episodic-Semantic Memory via Spreading Activation](https://arxiv.org/abs/2601.02744) | Jiang, Chen, Pan et al. | Jan 2026 | Memory as a dynamic graph where relevance emerges from **spreading activation** rather than pre-computed vector links. Lateral inhibition and temporal decay highlight relevant sub-graphs. Triple Hybrid retrieval. |
 | [MAGMA: Multi-Graph Agentic Memory Architecture](https://arxiv.org/abs/2601.03236) | Jiang, Li, Li, Li | Jan 2026 | Multi-graph based architecture separating different memory concerns into distinct graph structures for AI agents. |
-| [Mem0: Production-Ready AI Agents with Scalable Long-Term Memory](https://arxiv.org/abs/2504.19413) | Chhikara, Khant, Aryan, Singh, Yadav | Apr 2025 | Scalable memory-centric architecture with dynamic extraction, consolidation, and retrieval. Graph-based variant for complex relational structures. 26% improvement over OpenAI memory, 91% lower latency, 90%+ token savings. Evaluated on LOCOMO. |
-| [CraniMem: Neurocognitively Motivated Gated & Bounded Memory](https://arxiv.org/abs/2603.15642) | Mody, Panchal, Kar, Bhowmick, Karani | Mar 2026 | Cranial-inspired dual-store: bounded FIFO episodic buffer + knowledge graph (long-term). Goal-conditioned gating. Utility tagging (Importance + Surprise + Emotion). Beats Mem0 by +57.6% on noisy HotpotQA. ICLR 2026 MemAgents Workshop. [Code](https://github.com/PearlMody05/Cranimem) |
+| [Mem0: Production-Ready AI Agents with Scalable Long-Term Memory](https://arxiv.org/abs/2504.19413) | Chhikara, Khant, Aryan, Singh, Yadav | Apr 2025 | Scalable memory-centric architecture with dynamic extraction, consolidation, and retrieval. Graph-based variant for complex relational structures. 26% improvement over OpenAI memory, 91% lower latency, 90%+ token savings (self-reported). Evaluated on LOCOMO. |
+| [CraniMem: Neurocognitively Motivated Gated & Bounded Memory](https://arxiv.org/abs/2603.15642) | Mody, Panchal, Kar, Bhowmick, Karani | Mar 2026 | Cranial-inspired dual-store: bounded FIFO episodic buffer + knowledge graph (long-term). Goal-conditioned gating. Utility tagging (Importance + Surprise + Emotion). Beats Mem0 by +57.6% on noisy HotpotQA (self-reported; "noisy" = authors' own distractor injection, not a standard benchmark condition). ICLR 2026 MemAgents Workshop ✅. [Code](https://github.com/PearlMody05/Cranimem) |
 | [AdaMem: Adaptive User-Centric Memory](https://arxiv.org/abs/2603.16496) | — | Mar 2026 | Working, episodic, persona, and graph memories. Key innovation: **question-conditioned retrieval planning** — resolves target participant first, builds retrieval route combining semantic + relation-aware graph expansion. SOTA on LoCoMo and PERSONAMEM. |
 
 ## Memory Admission & Gating
@@ -60,14 +68,14 @@ A curated collection of research papers on **memory systems for LLM-based agents
 
 | Paper | Authors | Date | Key Contribution |
 |-------|---------|------|------------------|
-| [xMemory: Beyond RAG for Agent Memory](https://arxiv.org/abs/2602.02007) | Hu, Zhu, Yan, He, Gui | Feb 2026 | 4-level memory hierarchy. **Key thesis: RAG ≠ agent memory.** Submodular diversity-aware retrieval (MMR) replacing naive top-k. Uncertainty-gated adaptive expansion. Theme clustering. 44.91% retroactive reassignment rate proves flat structures fail. ICML 2026. |
+| [xMemory: Beyond RAG for Agent Memory](https://arxiv.org/abs/2602.02007) | Hu, Zhu, Yan, He, Gui | Feb 2026 | 4-level memory hierarchy. **Key thesis: RAG ≠ agent memory.** Submodular diversity-aware retrieval (MMR) replacing naive top-k. Uncertainty-gated adaptive expansion. Theme clustering. 44.91% retroactive reassignment rate proves flat structures fail. |
 | [SuperLocalMemory V3](https://arxiv.org/abs/2603.14588) | — | Mar 2026 | First **information-geometric foundations** for agent memory. Fisher information metric replaces cosine similarity. Riemannian Langevin dynamics for retrieval. Theoretical grounding for memory operations. |
 
 ## Forgetting & Consolidation
 
 | Paper | Authors | Date | Key Contribution |
 |-------|---------|------|------------------|
-| [SleepGate: Sleep-Inspired Forgetting for LLMs](https://arxiv.org/abs/2603.14517) | Xie (Kennesaw State) | Mar 2026 | Learned sleep cycle over KV cache addressing **proactive interference**. Conflict-aware temporal tagger + forgetting gate + consolidation module. Reduces interference horizon from O(n) to O(log n). 99.5% retrieval accuracy at PI depth 5 vs 23% baseline. Supersession detection via binary σ flag. |
+| [SleepGate: Sleep-Inspired Forgetting for LLMs](https://arxiv.org/abs/2603.14517) | Xie (Kennesaw State) | Mar 2026 | Learned sleep cycle over KV cache addressing **proactive interference**. Conflict-aware temporal tagger + forgetting gate + consolidation module. Reduces interference horizon from O(n) to O(log n). 99.5% retrieval accuracy at PI depth 5 vs 23% baseline (self-reported; extraordinary gap warrants independent replication). Supersession detection via binary σ flag. |
 
 ## Context Management
 
@@ -114,11 +122,11 @@ A curated collection of research papers on **memory systems for LLM-based agents
 
 These papers aren't solely about agent memory but contribute relevant architectural ideas:
 
-| Paper | Date | Relevance |
-|-------|------|-----------|
-| EverMemOS | Jan 2026 | Self-Organizing Memory Operating System for structured long-horizon reasoning. |
-| AriGraph (IJCAI 2025) | 2025 | Knowledge Graph World Models with episodic + semantic memory. |
-| Memory Matters More | Jan 2026 | Event-centric memory as a logic map for agent searching and reasoning. |
+| Paper | Authors | Date | Key Contribution |
+|-------|---------|------|------------------|
+| [EverMemOS: Self-Organizing Memory Operating System](https://arxiv.org/abs/2601.02163) | Chuanrui Hu, Xingze Gao, Zuyi Zhou et al. | Jan 2026 | Engram-inspired MemCell lifecycle: episodic trace formation → semantic consolidation into MemScenes → reconstructive recollection. SOTA on LoCoMo and LongMemEval. [Code](https://github.com/EverMind-AI/EverMemOS) |
+| [AriGraph: Knowledge Graph World Models with Episodic Memory](https://arxiv.org/abs/2407.04363) | Petr Anokhin, Nikita Semenov, Artyom Sorokin et al. | Jul 2024 | Integrates semantic knowledge graph with episodic memory for LLM agents in text-based games. IJCAI 2025 (confirmed — [proceedings](https://www.ijcai.org/proceedings/2025/0002.pdf)). |
+| [Memory Matters More: Event-Centric Memory as Logic Map](https://arxiv.org/abs/2601.04726) | Yuyang Hu, Jiongnan Liu, Jiejun Tan, Yutao Zhu, Zhicheng Dou | Jan 2026 | CompassMem: event-centric memory graph enabling structured, goal-directed navigation over memory beyond superficial retrieval. Evaluated on LoCoMo and NarrativeQA. |
 
 ---
 
