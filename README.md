@@ -17,6 +17,7 @@ A curated collection of research papers on **memory systems for LLM-based agents
 | **Build agent memory** | [xMemory](https://arxiv.org/abs/2602.02007) (why RAG isn't enough) → [A-MAC](https://arxiv.org/abs/2603.04549) (admission control) → [Mem0](https://arxiv.org/abs/2504.19413) (production system) |
 | **Add forgetting/consolidation** | [SleepGate](https://arxiv.org/abs/2603.14517) → [CraniMem](https://arxiv.org/abs/2603.15642) |
 | **Evaluate your memory system** | [StructMemEval](https://arxiv.org/abs/2602.11243) → [Anatomy](https://arxiv.org/abs/2602.19320) (why benchmarks are broken) |
+| **Train memory with RL** | [AgeMem](https://arxiv.org/abs/2601.01885) (tool-based ops) → [EMPO²](https://arxiv.org/abs/2602.23008) (exploration) → [MemFactory](https://arxiv.org/abs/2603.29493) (framework) |
 | **Explore the neuroscience** | [Neuromorphic section](#neuromorphic--bio-inspired-memory) |
 
 ---
@@ -28,6 +29,7 @@ A curated collection of research papers on **memory systems for LLM-based agents
 - [Memory Admission \& Gating](#memory-admission--gating)
 - [Retrieval \& Recall](#retrieval--recall)
 - [Forgetting \& Consolidation](#forgetting--consolidation)
+- [RL-Based Memory Policy](#rl-based-memory-policy)
 - [Context Management](#context-management)
 - [Evaluation \& Benchmarks](#evaluation--benchmarks)
 - [Cognitive \& Neuroscience-Inspired](#cognitive--neuroscience-inspired)
@@ -58,6 +60,7 @@ A curated collection of research papers on **memory systems for LLM-based agents
 | [Anatomy of Agentic Memory](https://arxiv.org/abs/2602.19320) | Jiang, Li, Wei et al. | Feb 2026 | Structured taxonomy of Memory-Augmented Generation (MAG) systems. Critically analyzes empirical fragility: benchmark saturation, metric misalignment, backbone-dependent variance, overlooked latency costs. Evaluates 5 systems (LOCOMO, A-Mem, MemoryOS, Nemori, MAGMA). |
 | [The Landscape of Agentic RL for LLMs](https://arxiv.org/abs/2509.02547) | Guibin Zhang et al. (Oxford, Shanghai AI Lab, NUS, UIUC, UCL) | Sep 2025 | Synthesizes 500+ works. Reframes LLMs as autonomous agents using POMDPs. Covers planning, tool use, memory, reasoning, self-improvement. |
 | [From Static Templates to Dynamic Runtime Graphs](https://arxiv.org/abs/2603.22386) | Yue et al. (IBM Research) | Mar 2026 | Agentic Computation Graphs (ACGs) framework — distinguishes workflow templates, realized graphs, and execution traces. Organizes ~40 papers by when structure is determined. |
+| [Memory for Autonomous LLM Agents: Mechanisms, Evaluation, and Emerging Frontiers](https://arxiv.org/abs/2603.07670) | Pengfei Du | Mar 2026 | Write–manage–read loop formalization. 3D taxonomy: temporal scope × representational substrate × control policy. Five mechanism families: context-resident compression, retrieval-augmented stores, reflective self-improvement, hierarchical virtual context, policy-learned management. Proposes vision of a "foundation model for memory control." |
 
 ## Memory Architectures
 
@@ -69,6 +72,11 @@ A curated collection of research papers on **memory systems for LLM-based agents
 | [Mem0: Production-Ready AI Agents with Scalable Long-Term Memory](https://arxiv.org/abs/2504.19413) | Chhikara, Khant, Aryan, Singh, Yadav | Apr 2025 | Scalable memory-centric architecture with dynamic extraction, consolidation, and retrieval. Graph-based variant for complex relational structures. 26% improvement over OpenAI memory, 91% lower latency, 90%+ token savings 📄 (self-reported). Evaluated on LOCOMO. |
 | [CraniMem: Neurocognitively Motivated Gated & Bounded Memory](https://arxiv.org/abs/2603.15642) | Mody, Panchal, Kar, Bhowmick, Karani | Mar 2026 | Cranial-inspired dual-store: bounded FIFO episodic buffer + knowledge graph (long-term). Goal-conditioned gating. Utility tagging (Importance + Surprise + Emotion). Beats Mem0 by +57.6% on noisy HotpotQA 📄 (self-reported; "noisy" = authors' own distractor injection, not standard benchmark). ICLR 2026 MemAgents Workshop ✅. [Code](https://github.com/PearlMody05/Cranimem) |
 | [AdaMem: Adaptive User-Centric Memory](https://arxiv.org/abs/2603.16496) | — | Mar 2026 | Working, episodic, persona, and graph memories. Key innovation: **question-conditioned retrieval planning** — resolves target participant first, builds retrieval route combining semantic + relation-aware graph expansion. SOTA on LoCoMo and PERSONAMEM. |
+| [PlugMem: A Task-Agnostic Plugin Memory Module](https://arxiv.org/abs/2603.03296) | Yang, Galley, Wang, Gao, Han, Zhai (Microsoft Research, UIUC) | Mar 2026 | Converts raw interactions into **propositional** (facts) + **prescriptive** (skills) knowledge, organized in a knowledge-centric memory graph. Knowledge — not entities or chunks — is the unit of memory access. Single plug-and-play module outperforms task-specific designs across 3 diverse benchmarks. Highest **information density**: more useful info per context token consumed 📄. |
+| [Memora: Harmonic Memory Representation](https://arxiv.org/abs/2602.03315) | Xia, Zhang, Dixit, Harimurugan, Wang, Ruhle, Sim, Bansal, Rajmohan (Microsoft Research) | Feb 2026 | Proves that **RAG and KG memory are special cases** of this unified framework. Primary abstractions index concrete memory values; "cue anchors" expand retrieval beyond semantic similarity. New SOTA on **both** LoCoMo AND LongMemEval 📄. |
+| [MemMA: Coordinating the Memory Cycle through Multi-Agent Reasoning](https://arxiv.org/abs/2603.18718) | Lin, Zhang, Lu, Liu, Tang, He, Zhang, Wang (Microsoft Research) | Mar 2026 | Multi-agent framework: Meta-Thinker → Memory Manager → Query Reasoner. **Backward path innovation**: synthesizes probe QA pairs, verifies memory, converts failures into repairs BEFORE finalizing. Plug-and-play — improves 3 different storage backends on LoCoMo. [Code](https://github.com/MinhuaLin/MemMA) |
+| [H-Mem: Hybrid Multi-Dimensional Memory](https://aclanthology.org/2026.eacl-long.363/) | Ye, Huang, Chen, Zhang (Rutgers) | Mar 2026 | Organizes memory across **time AND topic** dimensions simultaneously. Mimics associative + hierarchical properties of human memory. EACL 2026 ✅. |
+| [H-MEM: Hierarchical Memory for High-Efficiency Long-Term Reasoning](https://arxiv.org/abs/2507.22925) | Sun et al. | Mar 2026 | Multi-level memory storage with positional index encoding of sub-memory at each layer. Confidence-weighted retrieval — attaches memory weights to provide LLMs with uncertainty reference. Key finding: retrieval is ineffective without structured hierarchical storage. EACL 2026 ✅. |
 
 ## Memory Admission & Gating
 
@@ -83,12 +91,21 @@ A curated collection of research papers on **memory systems for LLM-based agents
 |-------|---------|------|------------------|
 | [xMemory: Beyond RAG for Agent Memory](https://arxiv.org/abs/2602.02007) | Hu, Zhu, Yan, He, Gui | Feb 2026 | 4-level memory hierarchy. **Key thesis: RAG ≠ agent memory.** Submodular diversity-aware retrieval (MMR) replacing naive top-k. Uncertainty-gated adaptive expansion. Theme clustering. 44.91% retroactive reassignment rate proves flat structures fail. ⚠️ Conference status unverified. |
 | [SuperLocalMemory V3](https://arxiv.org/abs/2603.14588) | — | Mar 2026 | First **information-geometric foundations** for agent memory. Fisher information metric replaces cosine similarity. Riemannian Langevin dynamics for retrieval. Theoretical grounding for memory operations. |
+| [ExpRAG: Retrieval-Augmented LLM Agents Learning to Learn from Experience](https://arxiv.org/abs/2603.18272) | Ferraz, Deffayet, Nikoulina, Déjean, Clinchant | Mar 2026 | Trains agents to USE retrieved trajectories in-context (retrieval-augmented fine-tuning). Standard LoRA collapses on OOD tasks; ExpRAG-LoRA generalizes to held-out hard tasks. Combines experience retrieval with fine-tuning — neither alone is sufficient. |
 
 ## Forgetting & Consolidation
 
 | Paper | Authors | Date | Key Contribution |
 |-------|---------|------|------------------|
 | [SleepGate: Sleep-Inspired Forgetting for LLMs](https://arxiv.org/abs/2603.14517) | Xie (Kennesaw State) | Mar 2026 | Learned sleep cycle over KV cache addressing **proactive interference**. Conflict-aware temporal tagger + forgetting gate + consolidation module. Reduces interference horizon from O(n) to O(log n). 99.5% retrieval accuracy at PI depth 5 vs 23% baseline 📄 (self-reported; extraordinary gap warrants independent replication). Supersession detection via binary σ flag. |
+
+## RL-Based Memory Policy
+
+| Paper | Authors | Date | Key Contribution |
+|-------|---------|------|------------------|
+| [AgeMem: Agentic Memory — Learning Unified LTM and STM Management](https://arxiv.org/abs/2601.01885) | Yu, Yao, Xie, Tan, Feng, Li, Wu | Jan 2026 | Exposes store/retrieve/update/summarize/discard as **tool-based actions**. Agent learns WHEN and WHAT to do via 3-stage progressive RL + step-wise GRPO. Outperforms all heuristic-based baselines across 5 benchmarks. Key thesis: memory operations should be **learned**, not hard-coded 📄. |
+| [EMPO²: Exploratory Memory-Augmented On- and Off-Policy Optimization](https://arxiv.org/abs/2602.23008) | Liu, Kim, Luo, Li, Yang | Feb 2026 | Uses memory not just for recall but for **exploring novel states**. Hybrid on/off-policy RL — **128.6% improvement** over GRPO on ScienceWorld 📄. Adapts to new tasks with just a few memory-augmented trials, zero parameter updates. ICLR 2026 ✅. |
+| [MemFactory: Unified Inference & Training Framework for Agent Memory](https://arxiv.org/abs/2603.29493) | Guo, Li, Tang, Xiong, Li | Mar 2026 | "LLaMA-Factory for memory agents" — first unified modular framework. Lego-like plug-and-play memory components. Natively integrates GRPO for RL-based memory policy training. Supports Memory-R1, RMM, MemAgent paradigms out of the box. Up to 14.8% improvement over base models 📄. |
 
 ## Context Management
 
@@ -101,6 +118,7 @@ A curated collection of research papers on **memory systems for LLM-based agents
 | Paper | Authors | Date | Key Contribution |
 |-------|---------|------|------------------|
 | [StructMemEval: Evaluating Memory Structure in LLM Agents](https://arxiv.org/abs/2602.11243) | Shutova, Olenina, Vinogradov, Sinitsin | Feb 2026 | Tests agents' ability to **organize** memory (not just retrieve). Tasks: transaction ledgers, to-do lists, trees. Key finding: LLMs don't spontaneously recognize when to apply memory structure — they succeed only when explicitly prompted. |
+| [MemoryAgentBench: Evaluating Memory via Incremental Multi-Turn Interactions](https://arxiv.org/abs/2507.05257) | Hu et al. (HUST) | Jul 2025 (revised Mar 2026) | Tests 4 memory competencies in realistic incremental accumulation. Key finding: no current method masters all 4 competencies simultaneously. ICLR 2026 ✅. [Code](https://github.com/HUST-AI-HYZ/MemoryAgentBench) |
 
 ## Cognitive & Neuroscience-Inspired
 
@@ -199,12 +217,19 @@ Current benchmarks are saturated, metrics misalign with semantic utility, and re
 
 ---
 
+### 7. 🎮 RL Is Replacing Heuristic Memory Management
+**Papers:** AgeMem, EMPO², MemFactory, Memory-R1
+
+The dominant shift in 2026: from hand-coded admission/retrieval rules to **reinforcement-learned memory policies**. AgeMem exposes all memory operations as tool-based actions and learns when to use them via GRPO. EMPO² takes this further by using memory for exploration, not just recall. MemFactory provides the infrastructure to train these policies. This is the most consequential paradigm shift since the field recognized that RAG ≠ memory.
+
 ## Open Questions
 
 - **How should admission gates interact with consolidation loops?** (A-MAC + SleepGate integration)
 - **What's the right forgetting curve for different memory types?** (No paper addresses type-specific decay)
 - **Can skill routing be unified with memory retrieval?** (SkillRouter + xMemory convergence)
 - **What's the minimum viable memory architecture?** (Most papers add complexity — none simplify)
+- **How should backward verification loops (MemMA probe-verify-repair) integrate with forward memory policy?** (MemMA + AgeMem convergence)
+- **Can RL-learned memory policies transfer across domains?** (EMPO² shows OOD promise — but limited evaluation)
 
 ---
 
