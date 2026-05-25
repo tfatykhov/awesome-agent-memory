@@ -18,6 +18,8 @@ A curated collection of research papers on **memory systems for LLM-based agents
 | **Add forgetting/consolidation** | [SleepGate](https://arxiv.org/abs/2603.14517) → [CraniMem](https://arxiv.org/abs/2603.15642) |
 | **Evaluate your memory system** | [StructMemEval](https://arxiv.org/abs/2602.11243) → [Anatomy](https://arxiv.org/abs/2602.19320) (why benchmarks are broken) |
 | **Train memory with RL** | [AgeMem](https://arxiv.org/abs/2601.01885) (tool-based ops) → [EMPO²](https://arxiv.org/abs/2602.23008) (exploration) → [MemFactory](https://arxiv.org/abs/2603.29493) (framework) |
+| **Understand memory privacy risk** | [ADAM](https://arxiv.org/abs/2604.09747) (extraction attack) → [FSFM](https://arxiv.org/abs/2604.20300) (forgetting as defense) |
+| **Unify memory ↔ skills ↔ rules** | [Experience Compression Spectrum](https://arxiv.org/abs/2604.15877) → [Externalization](https://arxiv.org/abs/2604.08224) |
 | **Explore the neuroscience** | [Neuromorphic section](#neuromorphic--bio-inspired-memory) |
 
 ---
@@ -35,6 +37,7 @@ A curated collection of research papers on **memory systems for LLM-based agents
 - [Cognitive \& Neuroscience-Inspired](#cognitive--neuroscience-inspired)
 - [Skill \& Procedural Memory](#skill--procedural-memory)
 - [Multi-Agent Memory](#multi-agent-memory)
+- [Memory Security \& Privacy](#memory-security--privacy)
 - [Memory Economics](#memory-economics)
 - [Neuromorphic \& Bio-Inspired Memory](#neuromorphic--bio-inspired-memory)
 - [Adjacent Research](#adjacent-research)
@@ -61,6 +64,10 @@ A curated collection of research papers on **memory systems for LLM-based agents
 | [The Landscape of Agentic RL for LLMs](https://arxiv.org/abs/2509.02547) | Guibin Zhang et al. (Oxford, Shanghai AI Lab, NUS, UIUC, UCL) | Sep 2025 | Synthesizes 500+ works. Reframes LLMs as autonomous agents using POMDPs. Covers planning, tool use, memory, reasoning, self-improvement. |
 | [From Static Templates to Dynamic Runtime Graphs](https://arxiv.org/abs/2603.22386) | Yue et al. (IBM Research) | Mar 2026 | Agentic Computation Graphs (ACGs) framework — distinguishes workflow templates, realized graphs, and execution traces. Organizes ~40 papers by when structure is determined. |
 | [Memory for Autonomous LLM Agents: Mechanisms, Evaluation, and Emerging Frontiers](https://arxiv.org/abs/2603.07670) | Pengfei Du | Mar 2026 | Write–manage–read loop formalization. 3D taxonomy: temporal scope × representational substrate × control policy. Five mechanism families: context-resident compression, retrieval-augmented stores, reflective self-improvement, hierarchical virtual context, policy-learned management. Proposes vision of a "foundation model for memory control." |
+| [Externalization in LLM Agents: A Unified Review of Memory, Skills, Protocols and Harness Engineering](https://arxiv.org/abs/2604.08224) | Zhou, Chai, Chen, Guo, Shan, Song, Xu et al. | Apr 2026 | Unified review across **four externalized components**: memory stores, reusable skills, interaction protocols, runtime harness. Argues modern agent capability comes from reorganizing the runtime around the model, not from changing weights. Connects memory literature with skill-discovery and protocol-design literatures that rarely cite each other. |
+| [Experience Compression Spectrum: Unifying Memory, Skills, and Rules in LLM Agents](https://arxiv.org/abs/2604.15877) | Zhang, Wang, Cui, Qiu, Li, Zhu, He | Apr 2026 | Positions memory/skills/rules on a single compression axis (5–20× episodic, 50–500× procedural, 1000×+ declarative). Citation analysis of 1,136 references finds **<1% cross-community citation** between memory and skills literatures. Identifies the **"missing diagonal"** — no current system supports adaptive cross-level compression. |
+| [From Storage to Experience: A Survey on the Evolution of LLM Agent Memory Mechanisms](https://arxiv.org/abs/2605.06716) | Luo, Tian, Cao, Luo et al. | May 2026 | **ACL 2026 Findings** ✅ — Maps the field's evolution from passive storage stores toward experience-centric, self-evolving memory. Companion paper-list: [Evolving-LLM-Agent-Memory-Survey](https://github.com/FeishuLuo/Evolving-LLM-Agent-Memory-Survey). |
+| [Graph-based Agent Memory: Taxonomy, Techniques, and Applications](https://arxiv.org/abs/2602.05665) | Yang, Zhou, Xiao, Dong et al. | Feb 2026 | First focused taxonomy of **graph-based** agent memory: node/edge designs, construction strategies (entity-centric vs event-centric vs hybrid), retrieval (one-hop vs multi-hop vs subgraph), and update/forget operators. Useful companion to A-MEM, HeLa-Mem, GAM. |
 
 ## Memory Architectures
 
@@ -77,6 +84,12 @@ A curated collection of research papers on **memory systems for LLM-based agents
 | [MemMA: Coordinating the Memory Cycle through Multi-Agent Reasoning](https://arxiv.org/abs/2603.18718) | Lin, Zhang, Lu, Liu, Tang, He, Zhang, Wang (Microsoft Research) | Mar 2026 | Multi-agent framework: Meta-Thinker → Memory Manager → Query Reasoner. **Backward path innovation**: synthesizes probe QA pairs, verifies memory, converts failures into repairs BEFORE finalizing. Plug-and-play — improves 3 different storage backends on LoCoMo. [Code](https://github.com/MinhuaLin/MemMA) |
 | [H-Mem: Hybrid Multi-Dimensional Memory](https://aclanthology.org/2026.eacl-long.363/) | Ye, Huang, Chen, Zhang (Rutgers) | Mar 2026 | Organizes memory across **time AND topic** dimensions simultaneously. Mimics associative + hierarchical properties of human memory. EACL 2026 ✅. |
 | [H-MEM: Hierarchical Memory for High-Efficiency Long-Term Reasoning](https://arxiv.org/abs/2507.22925) | Sun et al. | Mar 2026 | Multi-level memory storage with positional index encoding of sub-memory at each layer. Confidence-weighted retrieval — attaches memory weights to provide LLMs with uncertainty reference. Key finding: retrieval is ineffective without structured hierarchical storage. EACL 2026 ✅. |
+| [GAM: Hierarchical Graph-based Agentic Memory for LLM Agents](https://arxiv.org/abs/2604.12285) | Wu, Zhang, Lin, Xu, Xu, Chen, Zou et al. | Apr 2026 | Explicitly **decouples encoding from consolidation**: an event-progression graph captures stream updates online; integration into the topic-associative network is deferred until a semantic shift is detected. Addresses the tension between stream-based fluidity and structured retention. |
+| [HeLa-Mem: Hebbian Learning and Associative Memory for LLM Agents](https://arxiv.org/abs/2604.16839) | Zhu, Li, Zhang, Liu, Yang | Apr 2026 | **ACL 2026** ✅ — Bio-inspired dual-graph: (1) episodic graph evolves via Hebbian co-activation; (2) semantic store populated via **Hebbian Distillation** — a Reflective Agent identifies densely-connected hubs and distills them into reusable semantic knowledge. Beats prior SOTA on LoCoMo across 4 categories with fewer context tokens 📄. [Code](https://github.com/ReinerBRO/HeLa-Mem) |
+| [LightMem: Lightweight LLM Agent Memory with Small Language Models](https://arxiv.org/abs/2604.07798) | Zhang, Zhang, Chen, Huang, Zheng et al. | Apr 2026 | **ACL 2026** ✅ — SLM-driven memory with strict online/offline separation. STM/MTM/LTM tiers with two-stage retrieval (vector coarse → semantic re-rank). **~2.5 F1 over A-MEM on LoCoMo, 83ms retrieval, 581ms end-to-end** 📄. Shows that careful SLM use can replace repeated large-model memory calls. |
+| [MemMachine: Ground-Truth-Preserving Memory for Personalized AI Agents](https://arxiv.org/abs/2604.04853) | Wang, Yu, Love, Zhang, Wong, Scargall, Fan et al. | Apr 2026 | Open-source system integrating short-term, long-term episodic, and profile memory in a ground-truth-preserving pipeline. Targets multi-session degradation in standard RAG. |
+| [Omni-SimpleMem: Autoresearch-Guided Lifelong Multimodal Memory](https://arxiv.org/abs/2604.01007) | Liu, Ling, Qiu, Liu, Han, Xia, Tu et al. | Apr 2026 | Uses **autonomous research-agent search** over the design space (architecture × retrieval × prompts × data pipeline) to discover effective lifelong multimodal memory configurations. The first paper to treat memory architecture itself as a search target. |
+| [Human-Inspired Memory Architecture for LLM Agents](https://arxiv.org/abs/2605.08538) | Kerestecioglu, Robsky, Vasters, Sharma, Kesselman (Microsoft) | May 2026 | Biologically-grounded architecture with **six cognitive mechanisms**: sleep-phase consolidation, interference-based forgetting, **engram maturation**, **reconsolidation on retrieval**, entity knowledge graphs, hybrid multi-cue retrieval. Introduces a synthetic calibration methodology that derives all thresholds *without* benchmark exposure — eliminates a common eval-leakage source. First streaming M-tier LongMemEval eval (475 sessions). Dedup-based consolidation: 97.2% retention precision, 58% store reduction (+21.8 pp) on a 13K-issue VSCode dataset 📄. |
 
 ## Memory Admission & Gating
 
@@ -84,6 +97,7 @@ A curated collection of research papers on **memory systems for LLM-based agents
 |-------|---------|------|------------------|
 | [A-MAC: Adaptive Memory Admission Control](https://arxiv.org/abs/2603.04549) | Zhang et al. (Workday AI) | Sep 2025 | 5-dimension scoring: Utility (LLM call), Confidence (ROUGE-L grounding), Novelty (1 - max cosine similarity), Recency, Type Prior. Learned weights vs fixed heuristics. |
 | [ACC: Agent Cognitive Compressor](https://arxiv.org/abs/2601.11653) | Bousetouane | Jan 2026 | Bio-inspired memory controller replacing transcript replay with bounded internal state updated online. Compresses agent cognitive state without losing decision-relevant context. |
+| [MemReader: From Passive to Active Extraction for Long-Term Agent Memory](https://arxiv.org/abs/2604.07877) | Kang, Li, Chen, Tang, Xiong, Li | Apr 2026 | First **RL-trained active extraction policy** (vs passive transcription). MemReader-4B uses GRPO + ReAct to evaluate value/ambiguity/completeness, then chooses **WRITE / DEFER / RETRIEVE-CONTEXT / DISCARD** before admission. Integrated into MemOS. Addresses memory pollution from noisy dialogue and cross-turn dependencies. |
 
 ## Retrieval & Recall
 
@@ -92,12 +106,15 @@ A curated collection of research papers on **memory systems for LLM-based agents
 | [xMemory: Beyond RAG for Agent Memory](https://arxiv.org/abs/2602.02007) | Hu, Zhu, Yan, He, Gui | Feb 2026 | 4-level memory hierarchy. **Key thesis: RAG ≠ agent memory.** Submodular diversity-aware retrieval (MMR) replacing naive top-k. Uncertainty-gated adaptive expansion. Theme clustering. 44.91% retroactive reassignment rate proves flat structures fail. ⚠️ Conference status unverified. |
 | [SuperLocalMemory V3](https://arxiv.org/abs/2603.14588) | — | Mar 2026 | First **information-geometric foundations** for agent memory. Fisher information metric replaces cosine similarity. Riemannian Langevin dynamics for retrieval. Theoretical grounding for memory operations. |
 | [ExpRAG: Retrieval-Augmented LLM Agents Learning to Learn from Experience](https://arxiv.org/abs/2603.18272) | Ferraz, Deffayet, Nikoulina, Déjean, Clinchant | Mar 2026 | Trains agents to USE retrieved trajectories in-context (retrieval-augmented fine-tuning). Standard LoRA collapses on OOD tasks; ExpRAG-LoRA generalizes to held-out hard tasks. Combines experience retrieval with fine-tuning — neither alone is sufficient. |
+| [To Know is to Construct: Schema-Constrained Generation for Agent Memory (SCG-MEM)](https://arxiv.org/abs/2604.20117) | Zheng, Song, Li, Yang | Apr 2026 | Replaces dense retrieval with **schema-constrained decoding**. Piaget-inspired: assimilation (grounding into existing schemas) vs accommodation (expanding schemas with novel concepts). Solves "structural hallucination" — LLMs generating references to non-existent memory keys. Constructivist alternative to similarity-based recall. |
 
 ## Forgetting & Consolidation
 
 | Paper | Authors | Date | Key Contribution |
 |-------|---------|------|------------------|
 | [SleepGate: Sleep-Inspired Forgetting for LLMs](https://arxiv.org/abs/2603.14517) | Xie (Kennesaw State) | Mar 2026 | Learned sleep cycle over KV cache addressing **proactive interference**. Conflict-aware temporal tagger + forgetting gate + consolidation module. Reduces interference horizon from O(n) to O(log n). 99.5% retrieval accuracy at PI depth 5 vs 23% baseline 📄 (self-reported; extraordinary gap warrants independent replication). Supersession detection via binary σ flag. |
+| [SCM: Sleep-Consolidated Memory with Algorithmic Forgetting](https://arxiv.org/abs/2604.20943) | Shinde | Apr 2026 | Five components inspired by human memory: limited-capacity working memory, multi-dimensional importance tagging, **offline sleep-stage consolidation with distinct NREM and REM phases**, intentional value-based forgetting, and a computational self-model for introspection. Reports perfect 10-turn recall, **90.9% noise reduction**, sub-millisecond search 📄. Research preview. |
+| [FSFM: A Biologically-Inspired Framework for Selective Forgetting of Agent Memory](https://arxiv.org/abs/2604.20300) | Gu, Xiong, Wang, Ren, Li, Zhang, Guo et al. | Apr 2026 | Grounds selective forgetting in **hippocampal indexing/consolidation theory and the Ebbinghaus curve**. Argues that in resource-constrained environments a forgetting mechanism is as crucial as retention — and that memory security depends on the agent's ability to actively drop sensitive history. |
 
 ## RL-Based Memory Policy
 
@@ -106,6 +123,8 @@ A curated collection of research papers on **memory systems for LLM-based agents
 | [AgeMem: Agentic Memory — Learning Unified LTM and STM Management](https://arxiv.org/abs/2601.01885) | Yu, Yao, Xie, Tan, Feng, Li, Wu | Jan 2026 | Exposes store/retrieve/update/summarize/discard as **tool-based actions**. Agent learns WHEN and WHAT to do via 3-stage progressive RL + step-wise GRPO. Outperforms all heuristic-based baselines across 5 benchmarks. Key thesis: memory operations should be **learned**, not hard-coded 📄. |
 | [EMPO²: Exploratory Memory-Augmented On- and Off-Policy Optimization](https://arxiv.org/abs/2602.23008) | Liu, Kim, Luo, Li, Yang | Feb 2026 | Uses memory not just for recall but for **exploring novel states**. Hybrid on/off-policy RL — **128.6% improvement** over GRPO on ScienceWorld 📄. Adapts to new tasks with just a few memory-augmented trials, zero parameter updates. ICLR 2026 ✅. |
 | [MemFactory: Unified Inference & Training Framework for Agent Memory](https://arxiv.org/abs/2603.29493) | Guo, Li, Tang, Xiong, Li | Mar 2026 | "LLaMA-Factory for memory agents" — first unified modular framework. Lego-like plug-and-play memory components. Natively integrates GRPO for RL-based memory policy training. Supports Memory-R1, RMM, MemAgent paradigms out of the box. Up to 14.8% improvement over base models 📄. |
+| [Memory-R2: Fair Credit Assignment for Long-Horizon Memory-Augmented LLM Agents](https://arxiv.org/abs/2605.21768) | Yan, Bahloul, Nie, Schwarzmann, Trivisonno, Tresp, Ma | May 2026 | Identifies a fundamental flaw in GRPO for memory-RL: once rollouts write different memories, they no longer share the same effective environment, so trajectory-level group comparisons are *unfair*. Introduces **LoGo-GRPO** (Local + Global) — global keeps end-to-end long-horizon reward; local re-rollouts compare memory-op outcomes from the same intermediate state. Shared-parameter co-learning for fact extractor + memory manager. Progressive curriculum 8→16→32 sessions. |
+| [What Training Data Teaches RL Memory Agents: Curriculum Effects in Memory-Augmented QA](https://arxiv.org/abs/2605.23067) | He, Lin, Liu, Wu, Xie, Zhou, Xiao | May 2026 | Controlled study holding architecture/RL/hyperparams fixed and varying *only* curriculum across in-domain (LoCoMo), mixed (LoCoMo+LongMemEval), and OOD (LongMemEval). **Key findings:** curriculum is a fine-grained lever on *specialization*, not a uniform scaling factor; per-type differences dwarf aggregate differences (single-number benchmark comparisons systematically underreport); binary EM reward produces no signal at G=4 group size — continuous rewards needed for single-GPU regime. Practical RL-memory training playbook. [Code](https://github.com/EvaxHe/rl-memory-curriculum) |
 
 ## Context Management
 
@@ -119,6 +138,9 @@ A curated collection of research papers on **memory systems for LLM-based agents
 |-------|---------|------|------------------|
 | [StructMemEval: Evaluating Memory Structure in LLM Agents](https://arxiv.org/abs/2602.11243) | Shutova, Olenina, Vinogradov, Sinitsin | Feb 2026 | Tests agents' ability to **organize** memory (not just retrieve). Tasks: transaction ledgers, to-do lists, trees. Key finding: LLMs don't spontaneously recognize when to apply memory structure — they succeed only when explicitly prompted. |
 | [MemoryAgentBench: Evaluating Memory via Incremental Multi-Turn Interactions](https://arxiv.org/abs/2507.05257) | Hu et al. (HUST) | Jul 2025 (revised Mar 2026) | Tests 4 memory competencies in realistic incremental accumulation. Key finding: no current method masters all 4 competencies simultaneously. ICLR 2026 ✅. [Code](https://github.com/HUST-AI-HYZ/MemoryAgentBench) |
+| [From Recall to Forgetting: Benchmarking Long-Term Memory for Personalized Agents (Memora + FAMA)](https://arxiv.org/abs/2604.20006) | Uddin, Shubham, Blanco, Baral, Wang (ASU) | Apr 2026 | **ACL 2026 Findings** ✅ — Introduces **Memora**, a weeks-to-months benchmark over three tasks: remembering, reasoning, recommending. Introduces **FAMA (Forgetting-Aware Memory Accuracy)** — a metric that *penalizes* reliance on obsolete or invalidated memory rather than just rewarding recall. Evaluation of 4 LLMs and 6 memory agents finds frequent reuse of invalid memories and failures to reconcile evolving knowledge. ⚠️ Not to be confused with Microsoft's *Memora: Harmonic Memory Representation* (2602.03315). |
+| [STALE: Can LLM Agents Know When Their Memories Are No Longer Valid?](https://arxiv.org/abs/2605.06527) | Chao, Bai, Sheng, Li, Sun | May 2026 | Benchmark for **Implicit Conflict** — a later observation invalidates an earlier memory *without explicit negation*, requiring inference + commonsense to detect. 400 expert-validated scenarios, 1,200 queries, contexts up to 150K tokens. Three-dimensional probing: **State Resolution**, **Premise Resistance**, **Implicit Policy Adaptation**. Best frontier LLM only 55.2% overall. Companion prototype **CUPMem** uses structured state consolidation + propagation-aware search. Complements FAMA. |
+| [MemoryArena: Benchmarking Agent Memory in Interdependent Multi-Session Agentic Tasks](https://arxiv.org/abs/2602.16313) | He, Wang, Zhi, Hu, Chen, Yin, Wu, Ouyang, Wang, Pei, McAuley, Choi, Pentland | Feb 2026 | Memory-Agent-Environment loop benchmark across **web navigation, preference-constrained planning, progressive information search, sequential formal reasoning**. Key result: agents near-saturated on LoCoMo **perform poorly** in MemoryArena, exposing a gap between long-context memorization benchmarks and *interdependent* agentic memory use. [Project](https://memoryarena.github.io) |
 
 ## Cognitive & Neuroscience-Inspired
 
@@ -136,12 +158,23 @@ A curated collection of research papers on **memory systems for LLM-based agents
 |-------|---------|------|------------------|
 | [SkillRouter: Skill-Based Routing for LLM Agents](https://arxiv.org/abs/2603.22455) | Alibaba | Sep 2025 | **Critical finding:** skill BODY is the decisive routing signal (91.7% attention weight), NOT name (7.3%) or description (1.0%). Removing body causes 29-44pp degradation. BM25 on metadata alone scores 0%. Two-stage retrieve-and-rerank (1.2B params). |
 | [EvoSkill: Self-Evolving Skill Discovery](https://arxiv.org/abs/2603.02766) | Sentient, Virginia Tech | Sep 2025 | Automates skill discovery via iterative failure analysis without model fine-tuning. Three agents: Executor, Proposer, Skill-Builder. Skill-merge outperforms single runs. [Code](https://github.com/sentient-agi/EvoSkill) |
+| [Trajectory-Informed Memory Generation for Self-Improving Agent Systems](https://arxiv.org/abs/2603.10600) | Fang, Isahagian, Jayaram, Kumar, Muthusamy, Oum, Thomas (IBM Research) | Mar 2026 | Extracts **typed actionable tips** from execution trajectories: **strategy** tips (clean successes), **recovery** tips (failure-then-recovery), **optimization** tips (inefficient-but-successful). Closes the gap between episodic logs and reusable procedural knowledge — useful as a complement to EvoSkill and SkillRouter. |
 
 ## Multi-Agent Memory
 
 | Paper | Authors | Date | Key Contribution |
 |-------|---------|------|------------------|
 | [CoMAM: Collaborative Memory for Multi-Agent Systems](https://arxiv.org/abs/2603.12631) | — | Sep 2025 | Collaborative RL framework modeling memory agents as sequential MDP with inter-agent dependencies. Group-level ranking consistency for coordinated memory operations. |
+| [DCM-Agent: Dual-Cluster Memory for Multi-Paradigm Ambiguity](https://arxiv.org/abs/2604.20183) | Zhang, Wan, Zhang, Yang, Zhang, Wei, Liu | Apr 2026 | Tackles structural ambiguity in optimization problems where one problem admits multiple conflicting modeling paradigms. Training-free dual-cluster memory keeps competing paradigm solutions separated so the agent can pick or blend at inference time. Relevant to multi-agent settings where agents disagree on framing. |
+
+## Memory Security & Privacy
+
+> *April 2026 marks memory security emerging as a first-class research concern. As agent memories grow rich with user data, they become attack surfaces.*
+
+| Paper | Authors | Date | Key Contribution |
+|-------|---------|------|------------------|
+| [ADAM: A Systematic Data Extraction Attack on Agent Memory via Adaptive Querying](https://arxiv.org/abs/2604.09747) | Lyu, He, Wang, Hu, Li, Chen, Li, Chen | Apr 2026 | First systematic privacy attack on agent memory. Combines **data-distribution estimation** of a victim agent's memory with **entropy-guided adaptive querying** to maximize leakage. Achieves **up to 100% Attack Success Rate** on extracting stored memories 📄 — substantially outperforming prior attacks. Establishes the need for privacy-preserving memory designs as a first-class research direction. |
+| [SSGM: Stability and Safety Governed Memory for LLM Agents](https://arxiv.org/abs/2603.11768) | Lam, Li, Zhang, Zhao | Mar 2026 (rev May 2026) | Conceptual governance framework that **decouples memory evolution from execution** by enforcing consistency verification, temporal decay modeling, and dynamic access control *before* any memory consolidation. Provides a taxonomy of memory corruption risks: **topology-induced knowledge leakage**, **semantic drift via iterative summarization**, and consolidation hazards. Complementary defensive framing to ADAM. |
 
 ## Memory Economics
 
@@ -222,6 +255,21 @@ Current benchmarks are saturated, metrics misalign with semantic utility, and re
 
 The dominant shift in 2026: from hand-coded admission/retrieval rules to **reinforcement-learned memory policies**. AgeMem exposes all memory operations as tool-based actions and learns when to use them via GRPO. EMPO² takes this further by using memory for exploration, not just recall. MemFactory provides the infrastructure to train these policies. This is the most consequential paradigm shift since the field recognized that RAG ≠ memory.
 
+### 8. 🔒 Memory Privacy Becomes a First-Class Concern
+**Papers:** ADAM, FSFM
+
+April 2026 surfaced the first systematic memory-extraction attack (ADAM, up to 100% ASR) — and the first forgetting frameworks (FSFM) that explicitly frame *selective forgetting* as a privacy primitive, not just a retention/efficiency one. Expect memory threat-modeling, audit interfaces, and unlearning APIs to follow.
+
+### 9. 🪜 Memory ↔ Skills ↔ Rules as a Compression Spectrum
+**Papers:** Experience Compression Spectrum, Externalization in LLM Agents
+
+The memory and skill-discovery communities have been solving the same problem (extract reusable knowledge from interaction traces) without citing each other — cross-community citation rate is **below 1%**. The Compression Spectrum reframes both as points on a single axis (5–20× → 50–500× → 1000×+ compression), and identifies the **missing diagonal**: no current system supports adaptive cross-level compression.
+
+### 10. 🧱 Active, Constructive Memory Operations
+**Papers:** MemReader (active extraction), SCG-MEM (schema-constrained generation), HeLa-Mem (Hebbian distillation)
+
+Two paradigm shifts in April 2026: (1) **MemReader** moves extraction from passive transcription to an RL-learned WRITE/DEFER/RETRIEVE-CONTEXT/DISCARD policy. (2) **SCG-MEM** replaces dense retrieval with schema-constrained *decoding* (Piaget-style assimilation vs accommodation). Together they suggest the future of memory is generative-constructive, not retrieve-and-paste.
+
 ## Open Questions
 
 - **How should admission gates interact with consolidation loops?** (A-MAC + SleepGate integration)
@@ -230,6 +278,11 @@ The dominant shift in 2026: from hand-coded admission/retrieval rules to **reinf
 - **What's the minimum viable memory architecture?** (Most papers add complexity — none simplify)
 - **How should backward verification loops (MemMA probe-verify-repair) integrate with forward memory policy?** (MemMA + AgeMem convergence)
 - **Can RL-learned memory policies transfer across domains?** (EMPO² shows OOD promise — but limited evaluation)
+- **Can constructivist memory (schema-bound decoding, SCG-MEM) replace similarity-based retrieval?**
+- **Can the "missing diagonal" be filled — adaptive cross-level compression between episodic/procedural/declarative?**
+- **How robust is agent memory against systematic extraction attacks (ADAM-class threats)?**
+- **What is the right interface between active extraction (MemReader) and admission gating (A-MAC)?**
+- **Does Hebbian distillation (HeLa-Mem) outperform LLM-driven semantic abstraction at scale?**
 
 ---
 
