@@ -222,6 +222,9 @@ These papers aren't solely about agent memory but contribute relevant architectu
 | [EverMemOS](https://arxiv.org/abs/2601.02163) — Liu, Bai, Chen et al. | Jan 2026 | Self-Organizing Memory Operating System for structured long-horizon reasoning. |
 | [AriGraph](https://arxiv.org/abs/2407.04363) — Anokhin, Radionov et al. | IJCAI 2025 ✅ | Knowledge Graph World Models with episodic + semantic memory. [Proceedings](https://www.ijcai.org/proceedings/2025/) |
 | [Memory Matters More Than You Think](https://arxiv.org/abs/2601.04726) — Zhou, Li et al. (Renmin U.) | Jan 2026 | Event-centric memory with Logic Map for agent searching and reasoning. |
+| [The Consolidation Problem in Agent Memory](https://hindsight.vectorize.io/blog/2026/05/21/agent-memory-consolidation) — Vectorize (Hindsight) | May 2026 | Industry framing of consolidation as a policy layer with four levers — importance, merge, decay, eviction — benchmarked across Mem0, Zep, Letta, LangChain, Hindsight. |
+| [Introducing STATE-Bench](https://opensource.microsoft.com/blog/2026/05/19/introducing-state-bench-a-benchmark-for-ai-agent-memory) — Microsoft ([repo](https://github.com/microsoft/STATE-Bench)) | May 2026 | Open-source, memory-agnostic benchmark measuring whether agents *improve with experience* on stateful enterprise tasks (travel, support, shopping) — not just recall. |
+| [State of AI Agent Memory 2026](https://mem0.ai/blog/state-of-ai-agent-memory-2026) — Mem0 | 2026 | Industry survey of benchmarks, architectures, and six open problems (temporal abstraction, cross-session structure/identity, app-level eval, privacy/consent, staleness). |
 
 ---
 
