@@ -215,9 +215,9 @@ A curated collection of research papers on **memory systems for LLM-based agents
 
 ## Adjacent Research
 
-These papers aren't solely about agent memory but contribute relevant architectural ideas:
+These papers and projects aren't solely about agent memory but contribute relevant architectural ideas:
 
-| Paper | Date | Relevance |
+| Paper / Project | Date | Relevance |
 |-------|------|-----------|
 | [EverMemOS](https://arxiv.org/abs/2601.02163) — Liu, Bai, Chen et al. | Jan 2026 | Self-Organizing Memory Operating System for structured long-horizon reasoning. |
 | [AriGraph](https://arxiv.org/abs/2407.04363) — Anokhin, Radionov et al. | IJCAI 2025 ✅ | Knowledge Graph World Models with episodic + semantic memory. [Proceedings](https://www.ijcai.org/proceedings/2025/) |
@@ -225,6 +225,7 @@ These papers aren't solely about agent memory but contribute relevant architectu
 | [The Consolidation Problem in Agent Memory](https://hindsight.vectorize.io/blog/2026/05/21/agent-memory-consolidation) — Vectorize (Hindsight) | May 2026 | Industry framing of consolidation as a policy layer with four levers — importance, merge, decay, eviction — benchmarked across Mem0, Zep, Letta, LangChain, Hindsight. |
 | [Introducing STATE-Bench](https://opensource.microsoft.com/blog/2026/05/19/introducing-state-bench-a-benchmark-for-ai-agent-memory) — Microsoft ([repo](https://github.com/microsoft/STATE-Bench)) | May 2026 | Open-source, memory-agnostic benchmark measuring whether agents *improve with experience* on stateful enterprise tasks (travel, support, shopping) — not just recall. |
 | [State of AI Agent Memory 2026](https://mem0.ai/blog/state-of-ai-agent-memory-2026) — Mem0 | 2026 | Industry survey of benchmarks, architectures, and six open problems (temporal abstraction, cross-session structure/identity, app-level eval, privacy/consent, staleness). |
+| [Tree Ring Memory](https://github.com/TerminallyLazy/Tree-Ring-Memory) | Active | Local-first Rust CLI memory lifecycle layer for coding agents. Uses project-scoped SQLite/FTS, explainable recall, deterministic consolidation, forgetting, redaction, audit, and agent-framework discovery so memory can age instead of accumulating as raw transcript. |
 
 ---
 
