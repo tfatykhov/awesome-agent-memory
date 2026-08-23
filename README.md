@@ -21,6 +21,7 @@ A curated collection of research papers on **memory systems for LLM-based agents
 | **Understand memory privacy risk** | [ADAM](https://arxiv.org/abs/2604.09747) (extraction attack) → [FSFM](https://arxiv.org/abs/2604.20300) (forgetting as defense) |
 | **Unify memory ↔ skills ↔ rules** | [Experience Compression Spectrum](https://arxiv.org/abs/2604.15877) → [Externalization](https://arxiv.org/abs/2604.08224) |
 | **Make memory writes safe & reversible** | [MemTX](https://arxiv.org/abs/2607.23929) (transactional belief commit) → [ChronoMem](https://arxiv.org/abs/2607.27773) (versioning + rollback) |
+| **Ship something this week** | [Implementations & Reference Code](#-implementations--reference-code) (curated repos, mechanism-by-mechanism) |
 | **Explore the neuroscience** | [Neuromorphic section](#neuromorphic--bio-inspired-memory) |
 
 ---
@@ -43,6 +44,7 @@ A curated collection of research papers on **memory systems for LLM-based agents
 - [Memory Transactions, Versioning \& Recovery](#memory-transactions-versioning--recovery)
 - [Memory Economics](#memory-economics)
 - [Neuromorphic \& Bio-Inspired Memory](#neuromorphic--bio-inspired-memory)
+- [Implementations \& Reference Code](#-implementations--reference-code)
 - [Adjacent Research](#adjacent-research)
 - [Key Themes \& Cross-Cutting Insights](#key-themes--cross-cutting-insights)
 - [Contributing](#contributing)
@@ -263,7 +265,6 @@ A curated collection of research papers on **memory systems for LLM-based agents
 | [Simulation of Serotonin Mechanisms in NEUCOGAR Cognitive Architecture](https://www.sciencedirect.com/science/article/abs/pii/S2212683X15000663) | Talanov, Gafarov, Vallverdú et al. | 2018 | Maps neuromodulatory mechanisms to computational models: **dopamine → attention**, **serotonin → inhibition**. The "cube of emotions" model. Demonstrates that mammalian emotional-state control via monoamine neurotransmitters can be re-implemented computationally. Foundation for neuromodulator-gated memory admission. Procedia Computer Science. |
 | [tinyHippo](https://github.com/max-talanov/tinyHippo) | Talanov | Active | CA1 + CA3 hippocampal microcircuit simulation in NEST with Izhikevich neurons. Implements **bidirectional replay**, theta-modulated encoding/retrieval phase separation, and SWR-triggered consolidation. The biological reference implementation — validates the mechanisms that Membrain engineers and SleepGate abstracts. MIT license. |
 | [Membrain](https://github.com/tfatykhov/membrain) | Fatykhov | Active | Neuromorphic memory bridge using **FlyHash encoding** and BiCameralMemory SNN (Nengo/Voja learning). Hopfield-style attractor dynamics for pattern completion (tested up to 20% noise in PoC). Stochastic consolidation with SleepSignal. gRPC API for agent integration. The engineering abstraction layer between biological models (tinyHippo) and cognitive agents (Nous). |
-| [Vestige](https://github.com/samvallad33/vestige) | Vallad | Active | Local-first cognitive memory MCP server for coding agents. Combines FSRS-6 decay, spreading activation, contradiction inspection, active suppression, Receipt Lock, and an inspectable dashboard for agent memory. |
 
 **The Stack:** These projects form a natural hierarchy — **tinyHippo** (biological model, validates mechanisms) → **Membrain** (engineering abstraction, SNN service) → **Nous** (cognitive agent, consumes memory). The papers provide the theoretical foundation; the repos provide working implementations.
 
@@ -273,13 +274,91 @@ A curated collection of research papers on **memory systems for LLM-based agents
 - A-MEM's dual-phase encoding ↔ online/offline hippocampal states (Talanov 2025a, tinyHippo)
 - xMemory's hierarchical consolidation ↔ cortical-hippocampal memory transfer (Talanov 2025b)
 
+## 🛠 Implementations & Reference Code
+
+> *Papers describe mechanisms; these repos run them. **Inclusion bar:** (1) implements a memory **mechanism** beyond vector-store RAG — admission, consolidation, forgetting/decay, typed multi-store, temporal versioning, or governance; (2) **actively maintained** and (3) an **OSI-approved** license — both enforced for the two reusable-implementation subsections (*Memory Layers & Frameworks*, *Local-First & Coding-Agent Memory*), where a reader may actually vendor the code; author code for papers and benchmark/dataset repos is held to a different standard — **reproduction value** — so it may carry restrictive or absent license terms and may go quiet after publication, with both facts flagged inline ⚠️; (4) and either backs a paper in this list, has real production adoption, or fills a mechanism niche nothing else covers. Agent harnesses that merely bundle a vector store, general-purpose vector databases, and repos whose only claim is a self-reported benchmark ranking are **deliberately excluded**. Stars, license, and last-push verified via the GitHub API on **23 Aug 2026** — a snapshot for triage, not a ranking.*
+
+### Memory Layers & Frameworks
+
+| Project | Stars | License | What it actually implements |
+|---|---|---|---|
+| [mem0](https://github.com/mem0ai/mem0) | 63.8k | Apache-2.0 | Extraction-based fact memory: an LLM pass distills durable facts from raw dialogue, then reconciles them against the existing store via add / update / delete / noop. The most widely deployed reference for the **extract-then-reconcile write path**. Paper: [Mem0](https://arxiv.org/abs/2504.19413). |
+| [Graphiti](https://github.com/getzep/graphiti) (Zep) | 30.2k | Apache-2.0 | **Bi-temporal** knowledge graph: edges carry validity intervals and are *invalidated*, not overwritten, so superseded facts remain queryable with time bounds. The closest production analogue to [Memory Transactions, Versioning & Recovery](#memory-transactions-versioning--recovery). |
+| [cognee](https://github.com/topoteretes/cognee) | 30.2k | Apache-2.0 | ECL (extract → cognify → load) pipeline turning documents and conversations into a typed knowledge graph plus vector index, with explicit prune/forget operations over the graph rather than append-only growth. |
+| [Letta](https://github.com/letta-ai/letta) | 24.4k | Apache-2.0 | The MemGPT lineage: OS-style paged memory where **the agent edits its own core memory block** through tool calls and pages the remainder to archival storage. Self-editing memory as the mechanism. Paper: [MemGPT](https://arxiv.org/abs/2310.08560). |
+| [Hindsight](https://github.com/vectorize-io/hindsight) | 20.9k | MIT | Consolidation as an explicit **policy layer** over four levers — importance, merge, decay, eviction — instead of an unbounded append log. Industry framing already cited in [Adjacent Research](#adjacent-research); paper: [arXiv:2512.12818](https://arxiv.org/abs/2512.12818). |
+| [MemOS](https://github.com/MemTensor/MemOS) | 10.9k | Apache-2.0 | "Memory OS": a MemCube abstraction unifying **plaintext, activation (KV), and parameter memory**, with scheduling and cross-task reuse between them. Rare in treating KV-cache and long-term store as one substrate. |
+| [Honcho](https://github.com/plastic-labs/honcho) | 6.8k | AGPL-3.0 | Memory as a **representation of a person**, not a transcript: background reasoning maintains per-peer models, queried through a dialectic API rather than similarity search. |
+| [MemMachine](https://github.com/MemMachine/MemMachine) | 3.2k | Apache-2.0 | Clean two-tier service — episodic memory plus a durable user profile — with pluggable stores and a server/client split. A readable reference implementation if you are building your own. |
+| [MemoryOS](https://github.com/BAI-LAB/MemoryOS) | 1.6k | Apache-2.0 | EMNLP 2025 Oral ✅. Short / mid / long-term stores with **heat-based promotion and eviction** between tiers — one of the few systems whose admission and consolidation policy is inspectable code rather than a prompt. |
+| [redis/agent-memory-server](https://github.com/redis/agent-memory-server) | 308 | Apache-2.0 | Explicit **working-memory (token-bounded, session-scoped) vs long-term memory** split, with automatic extraction at the boundary. MCP + REST, Redis-native. |
+
+### Paper → Code
+
+*Reference implementations for papers already indexed in this list — verified to exist and to correspond to the cited work.*
+
+| Paper (in this list) | Code | Notes |
+|---|---|---|
+| [xMemory](https://arxiv.org/abs/2602.02007) | [HU-xiaobai/xMemory](https://github.com/HU-xiaobai/xMemory) | ⭐120 · MIT. Author release for *Beyond RAG for Agent Memory: Retrieval by Decoupling and Aggregation*. |
+| [AgeMem](https://arxiv.org/abs/2601.01885) | [y1y5/AgeMem](https://github.com/y1y5/AgeMem) | ⭐37 · ACL 2026 SAC Highlight ✅. Unified long/short-term memory management learned as tool operations. |
+| [CraniMem](https://arxiv.org/abs/2603.15642) | [PearlMody05/CraniMEM](https://github.com/PearlMody05/CraniMEM) | ⭐7 · gated-and-bounded memory implementation; [project page](https://github.com/MihirRajeshPanchal/CraniMEM-ICLR). ⚠️ No license file — all rights reserved by default; clear reuse with the authors. |
+| [HeLa-Mem](https://arxiv.org/abs/2604.16839) | [ReinerBRO/HeLa-Mem](https://github.com/ReinerBRO/HeLa-Mem) | ⭐16 · ACL 2026 Main ✅. Hebbian associative distillation, reproduces the LongMemEval-S numbers. ⚠️ No license file — all rights reserved by default. |
+| [StructMemEval](https://arxiv.org/abs/2602.11243) | [yandex-research/StructMemEval](https://github.com/yandex-research/StructMemEval) | ⭐11 · Apache-2.0. Raw benchmark data + supplementary code from Yandex Research; authors label it work in progress. |
+| [memorywire](https://arxiv.org/abs/2606.01138) | [mthamil107/memorywire](https://github.com/mthamil107/memorywire) | ⭐2 · Apache-2.0. Reference implementation of the wire format, including the provenance-based purge/quarantine path for poisoned stores. |
+| [A-MEM](https://arxiv.org/abs/2502.12110) | [agiresearch/A-mem](https://github.com/agiresearch/A-mem) | ⭐1.2k · MIT. Zettelkasten-style memory that links and evolves notes on write. Paper reproduction lives in [WujiangXu/A-mem](https://github.com/WujiangXu/A-mem) (NeurIPS 2025 ✅). Last push Dec 2025 ⚠️. |
+
+### Local-First & Coding-Agent Memory
+
+*Single-binary or file-backed systems, usually MCP servers, where the store is inspectable by a human and runs without a cloud dependency.*
+
+| Project | Stars | License | What it actually implements |
+|---|---|---|---|
+| [agentmemory](https://github.com/rohitg00/agentmemory) | 27.3k | Apache-2.0 | Full lifecycle memory for coding agents: confidence scoring, decay and consolidation, knowledge graph, hybrid search, ~20 agent adapters. ⚠️ Headline ranking claims are self-reported. |
+| [Engram](https://github.com/Gentleman-Programming/engram) | 6.1k | MIT | Agent-agnostic Go binary — SQLite + FTS5, MCP/HTTP/CLI/TUI, explicit conflict handling. Deterministic lexical recall as a deliberate counter-position to embedding everything (cf. ReFind in [Retrieval & Recall](#retrieval--recall)). |
+| [memsearch](https://github.com/zilliztech/memsearch) (Zilliz) | 2.5k | MIT | Markdown files as the source of truth, Milvus for hybrid retrieval, typed episodic/procedural memory. Human-readable store = auditable memory. |
+| [Nocturne Memory](https://github.com/Dataojitori/nocturne_memory) | 1.3k | MIT | **Rollbackable**, visually inspectable graph memory server for MCP agents — edits are reversible operations, not blind writes. The practical counterpart to MemTX/ChronoMem-style recovery. |
+| [Vestige](https://github.com/samvallad33/vestige) | 608 | AGPL-3.0 | Local-first Rust MCP server combining FSRS-6 decay, spreading activation, contradiction inspection, active suppression, Receipt Lock, and an inspectable dashboard. Built for causal recall — the quiet change that broke today, not the lookalike. |
+| [Mnemon](https://github.com/mnemon-dev/mnemon) | 507 | Apache-2.0 | Single Go binary, four-graph knowledge store with intent-aware recall, **importance decay**, and automatic deduplication. No API keys, one setup command. |
+| [Caura](https://github.com/caura-ai/caura) (ex-MemClaw) | 439 | Apache-2.0 | Governed **shared** memory for agent fleets: trust tiers, keystone policies, audit trails, multi-tenant scoping. The implementation counterpart to [Memory Trust & Integrity](#memory-trust--integrity) and [Multi-Agent Memory](#multi-agent-memory). |
+| [mengram](https://github.com/alibaizhanov/mengram) | 189 | Apache-2.0 | Typed semantic / episodic / procedural memory where **procedures are derived from recorded failures** — one of the few OSS systems implementing the failure → procedure loop from [Skill & Procedural Memory](#skill--procedural-memory). |
+| [Tree Ring Memory](https://github.com/TerminallyLazy/Tree-Ring-Memory) | 13 | MIT | Project-scoped Rust CLI lifecycle layer: SQLite/FTS explainable recall, deterministic consolidation, forgetting, redaction, audit, framework discovery. Memory that ages instead of accumulating raw transcript. |
+
+*Neuromorphic reference implementations — [tinyHippo](https://github.com/max-talanov/tinyHippo) and [Membrain](https://github.com/tfatykhov/membrain) — live in [Neuromorphic & Bio-Inspired Memory](#neuromorphic--bio-inspired-memory).*
+
+### Benchmarks & Evaluation Harnesses
+
+| Project | Stars | License | What it measures |
+|---|---|---|---|
+| [LongMemEval](https://github.com/xiaowu0162/LongMemEval) | 1.0k | MIT | ICLR 2025 ✅. 500 questions across five long-term memory abilities over long interactive histories. The de-facto standard — and the number most vendor claims cite. |
+| [LongMemEval-V2](https://github.com/xiaowu0162/LongMemEval-V2) | 132 | Apache-2.0 | Official successor, released 2026, addressing saturation and contamination in the original. |
+| [LoCoMo](https://github.com/snap-research/locomo) | 1.1k | see repo ⚠️ | Very long-term conversation benchmark (ACL 2024 ✅). Widely used dataset; **frozen ⚠️ — last push Aug 2024**, cite the data, don't expect maintenance. |
+| [MemoryData](https://github.com/OpenDataBox/MemoryData) | 139 | none ⚠️ | Unified harness — 4 benchmark families, 22 method presets, one runtime — built specifically to make heterogeneous memory systems comparable. Directly attacks the fragmentation problem [Evaluation & Benchmarks](#evaluation--benchmarks) documents. |
+| [GateMem](https://github.com/rzhub/GateMem) | 197 | MIT | **Memory governance** under multiple principals sharing one store: utility, access control, and active forgetting measured together instead of accuracy alone. |
+| [HaluMem](https://github.com/MemTensor/HaluMem) | 155 | CC-BY-NC-ND-4.0 ⚠️ | Operation-level hallucination benchmark: scores extraction, updating, and answering **separately**, exposing errors that end-to-end QA accuracy hides. License is declared by README badge only — no LICENSE file in the repo; **NC-ND terms forbid commercial use and derivatives**, so treat it as read-only unless you clear it with the authors. |
+| [Mem-Gallery](https://github.com/YuanchenBei/Mem-Gallery) | 103 | MIT | ACL 2026 Main ✅. Multimodal long-term conversational memory for MLLM agents. Last push Jan 2026 ⚠️. |
+| [STATE-Bench](https://github.com/microsoft/STATE-Bench) | 77 | MIT | Microsoft. Memory-agnostic enterprise workflows measuring whether an agent **improves with experience**, not whether it recalls a fact. Blog write-up in [Adjacent Research](#adjacent-research). |
+
+### Related Lists & Learning Resources
+
+| Resource | Stars | Why it's here |
+|---|---|---|
+| [Agent Memory Techniques](https://github.com/NirDiamant/Agent_Memory_Techniques) | 926 | 30 runnable notebooks covering buffers, vector stores, KGs, episodic/semantic memory, MemGPT, Mem0, Letta, Zep, Graphiti, and LoCoMo evaluation. The best hands-on on-ramp before reading the papers above. |
+| [Awesome-AI-Memory](https://github.com/IAAR-Shanghai/Awesome-AI-Memory) (IAAR Shanghai) | 1.2k | Broad bilingual knowledge base spanning LLM memory and agent memory, including engineering frameworks and applications. |
+| [Awesome-Agent-Memory](https://github.com/TeleAI-UAGI/Awesome-Agent-Memory) (TeleAI) | 596 | Systems + benchmarks + papers for LLM **and** MLLM memory — stronger multimodal coverage than this list. |
+| [Awesome-GraphMemory](https://github.com/DEEP-PolyU/Awesome-GraphMemory) | 339 | Survey-grade depth on graph-based agent memory specifically. |
+| [Awesome-Agent-Memory-Papers](https://github.com/yyyujintang/Awesome-Agent-Memory-Papers) | 229 | Paper-only index with a browsable [website](https://yyyujintang.github.io/Awesome-Agent-Memory-Papers/). |
+| [OpenDataBox/awesome-agent-memory](https://github.com/OpenDataBox/awesome-agent-memory) | 54 | Same name, different list — a four-axis paper taxonomy, companion to the MemoryData harness above. |
+
+---
+
 ## Adjacent Research
 
 These papers and projects aren't solely about agent memory but contribute relevant architectural ideas:
+
 | Paper / Project | Date | Relevance |
 |-------|------|-----------|
-| [MemTools: A Unified Research Framework for Interoperable Agent Memory](https://arxiv.org/abs/2607.21404) | Zhao, Chen, Liang, He, Wang, Zhao, Liu | Jul 2026 | Targets **architectural fragmentation** as the thing blocking systematic memory research: implementations couple lifecycle stages together, entangle evaluation logic with specific datasets, and barely support heterogeneous memory types. MemTools standardizes the memory lifecycle through **declarative data contracts**, enabling interchangeable assembly of components across systems, and **orthogonally separates benchmark datasets from execution protocols** so evaluation can be reconfigured independently of data. Adds a unified computational interface for coordinating symbolic, neural, and multimodal representations in one runtime. ⚠️ Authors label it **work in progress**; the evaluation demonstrates isolation of design variables rather than task-level performance. |
-| [MELD: A Protocol for Merging Knowledge Across Distributed Agentic Memories](https://arxiv.org/abs/2608.16357) | Lovén, Sauvola, Riekki, Tarkoma | Aug 2026 | Agents share transport and can call each other's tools, but have **no protocol for reconciling what they know**. MELD admits every incoming claim through a five-outcome procedure (**insert, merge, relate, conflict, reject**) decided from three signals — scoped claim-key identity, embedding similarity, and a natural-language- inference verdict — under context and freshness gates, acting through exactly one auditable, authenticated **Patch** as the sole object that mutates state, with a per-claim status **CRDT** over standard pub/sub. The design stance is the notable part: **MELD does not adjudicate truth — a detected contradiction is preserved for later adjudication, never silently resolved.** Merge classifier separates at **AUC 0.968 with a 0.013 false-merge rate**; the status CRDT reconverges in **30/30 real partition-heal trials where last-writer-wins manages 11/30**; recall-non-inferior to a centralized store at ~11% less live storage; ~3× fewer messages at matched recall. Evaluated on a real continuum spanning operator-grade 5G edge, national HPC, and a local tier 📄. ⚠️ Preprint; code and data on Zenodo. |
+| [MemTools: A Unified Research Framework for Interoperable Agent Memory](https://arxiv.org/abs/2607.21404) — Zhao, Chen, Liang, He, Wang, Zhao, Liu | Jul 2026 | Targets **architectural fragmentation** as the thing blocking systematic memory research: implementations couple lifecycle stages together, entangle evaluation logic with specific datasets, and barely support heterogeneous memory types. MemTools standardizes the memory lifecycle through **declarative data contracts**, enabling interchangeable assembly of components across systems, and **orthogonally separates benchmark datasets from execution protocols** so evaluation can be reconfigured independently of data. Adds a unified computational interface for coordinating symbolic, neural, and multimodal representations in one runtime. ⚠️ Authors label it **work in progress**; the evaluation demonstrates isolation of design variables rather than task-level performance. |
+| [MELD: A Protocol for Merging Knowledge Across Distributed Agentic Memories](https://arxiv.org/abs/2608.16357) — Lovén, Sauvola, Riekki, Tarkoma | Aug 2026 | Agents share transport and can call each other's tools, but have **no protocol for reconciling what they know**. MELD admits every incoming claim through a five-outcome procedure (**insert, merge, relate, conflict, reject**) decided from three signals — scoped claim-key identity, embedding similarity, and a natural-language- inference verdict — under context and freshness gates, acting through exactly one auditable, authenticated **Patch** as the sole object that mutates state, with a per-claim status **CRDT** over standard pub/sub. The design stance is the notable part: **MELD does not adjudicate truth — a detected contradiction is preserved for later adjudication, never silently resolved.** Merge classifier separates at **AUC 0.968 with a 0.013 false-merge rate**; the status CRDT reconverges in **30/30 real partition-heal trials where last-writer-wins manages 11/30**; recall-non-inferior to a centralized store at ~11% less live storage; ~3× fewer messages at matched recall. Evaluated on a real continuum spanning operator-grade 5G edge, national HPC, and a local tier 📄. ⚠️ Preprint; code and data on Zenodo. |
 | [memorywire: A Vendor-Neutral Wire Format for Agent Memory Operations](https://arxiv.org/abs/2606.01138) — Munirathinam | May 2026 (rev Jul 2026) | JSON-Schema 2020-12 wire format for 5 memory ops (remember/recall/forget/merge/expire) × 4 memory types over mem0/Letta/Cognee/Zep/pgvector backends, with an optional HITL governance channel. Not a new algorithm — a packaging of RRF/FSM/consolidation into a vendor-neutral protocol meant to compose with MCP. v3 adds a poison-recovery eval (PurgeBench) showing its **provenance field** is the strongest lever for recovering a poisoned store — relevant complement to TMA-NM/GhostWriter above. |
 | [EverMemOS](https://arxiv.org/abs/2601.02163) — Liu, Bai, Chen et al. | Jan 2026 | Self-Organizing Memory Operating System for structured long-horizon reasoning. |
 | [AriGraph](https://arxiv.org/abs/2407.04363) — Anokhin, Radionov et al. | IJCAI 2025 ✅ | Knowledge Graph World Models with episodic + semantic memory. [Proceedings](https://www.ijcai.org/proceedings/2025/) |
@@ -287,7 +366,6 @@ These papers and projects aren't solely about agent memory but contribute releva
 | [The Consolidation Problem in Agent Memory](https://hindsight.vectorize.io/blog/2026/05/21/agent-memory-consolidation) — Vectorize (Hindsight) | May 2026 | Industry framing of consolidation as a policy layer with four levers — importance, merge, decay, eviction — benchmarked across Mem0, Zep, Letta, LangChain, Hindsight. |
 | [Introducing STATE-Bench](https://opensource.microsoft.com/blog/2026/05/19/introducing-state-bench-a-benchmark-for-ai-agent-memory) — Microsoft ([repo](https://github.com/microsoft/STATE-Bench)) | May 2026 | Open-source, memory-agnostic benchmark measuring whether agents *improve with experience* on stateful enterprise tasks (travel, support, shopping) — not just recall. |
 | [State of AI Agent Memory 2026](https://mem0.ai/blog/state-of-ai-agent-memory-2026) — Mem0 | 2026 | Industry survey of benchmarks, architectures, and six open problems (temporal abstraction, cross-session structure/identity, app-level eval, privacy/consent, staleness). |
-| [Tree Ring Memory](https://github.com/TerminallyLazy/Tree-Ring-Memory) | Active | Local-first Rust CLI memory lifecycle layer for coding agents. Uses project-scoped SQLite/FTS, explainable recall, deterministic consolidation, forgetting, redaction, audit, and agent-framework discovery so memory can age instead of accumulating as raw transcript. |
 
 ---
 
@@ -424,6 +502,8 @@ This list grows as the field grows. To contribute:
 3. Bonus: note how it relates to or challenges existing papers in the list
 
 Papers should be peer-reviewed, at reputable workshops (e.g., ICLR MemAgents), or highly cited preprints. We prioritize papers with **novel architectural ideas** over incremental benchmark improvements.
+
+**For repositories** (the [Implementations](#-implementations--reference-code) section), the bar is different: a repo must implement a memory **mechanism** beyond vector-store RAG — admission, consolidation, forgetting/decay, typed multi-store, temporal versioning, or governance — and either back a paper in this list, show real adoption, or fill a niche nothing else covers. Star counts are context, not a criterion. Self-reported benchmark rankings are not evidence; a reproducible harness is. **Active maintenance and an OSI-approved license are required only in the two reusable-implementation subsections** (*Memory Layers & Frameworks*, *Local-First & Coding-Agent Memory*), where the code is meant to be vendored. Author code for papers and benchmark/dataset repos is judged on reproduction value instead: a license must still be **disclosed**, and where it is absent or non-OSI (e.g. NC-ND, or no LICENSE file at all) — or where the repo has been quiet for more than six months — the row is flagged ⚠️ rather than dropped. A frozen benchmark that everyone cites still earns its place; it just gets its last-push date stated.
 
 ---
 
