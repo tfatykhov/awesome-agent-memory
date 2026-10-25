@@ -397,6 +397,7 @@ A curated collection of research papers on **memory systems for LLM-based agents
 | [Awesome-GraphMemory](https://github.com/DEEP-PolyU/Awesome-GraphMemory) | 339 | Survey-grade depth on graph-based agent memory specifically. |
 | [Awesome-Agent-Memory-Papers](https://github.com/yyyujintang/Awesome-Agent-Memory-Papers) | 229 | Paper-only index with a browsable [website](https://yyyujintang.github.io/Awesome-Agent-Memory-Papers/). |
 | [OpenDataBox/awesome-agent-memory](https://github.com/OpenDataBox/awesome-agent-memory) | 54 | Same name, different list — a four-axis paper taxonomy, companion to the MemoryData harness above. |
+| [awesome-ai-agents: Memory](https://github.com/ianwieds/awesome-ai-agents#memory) | 3 | Memory section of a general agents list: 36 memory layers, stores and frameworks you can install today, next to the rest of the agent stack. |
 
 ---
 
