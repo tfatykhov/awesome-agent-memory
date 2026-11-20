@@ -409,6 +409,7 @@ A curated collection of research papers on **memory systems for LLM-based agents
 | [Awesome-GraphMemory](https://github.com/DEEP-PolyU/Awesome-GraphMemory) | 339 | Survey-grade depth on graph-based agent memory specifically. |
 | [Awesome-Agent-Memory-Papers](https://github.com/yyyujintang/Awesome-Agent-Memory-Papers) | 229 | Paper-only index with a browsable [website](https://yyyujintang.github.io/Awesome-Agent-Memory-Papers/). |
 | [OpenDataBox/awesome-agent-memory](https://github.com/OpenDataBox/awesome-agent-memory) | 54 | Same name, different list — a four-axis paper taxonomy, companion to the MemoryData harness above. |
+| [AI memory systems directory](https://counterparts.ai/directory/) ([data](https://github.com/counterparts-ai/directory), CC-BY-4.0) | 1 | A plain-language page for each of 21 memory products and frameworks (Mem0, Letta, Zep, ChatGPT, Claude Code and others): where memories are stored, plus a grade on each of 11 human-memory mechanisms (decay, consolidation, reconsolidation, prospective memory and others), with each built or partial grade linked to its source. Builders can correct their own page by pull request. ⚠️ Run by Counterparts, one of the systems it grades, and submitted by its author. |
 
 ---
 
